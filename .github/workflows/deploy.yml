@@ -25,11 +25,11 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Install Wrangler
+        run: bun add wrangler
+
       - name: Build project
         run: bun run build
 
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          command: pages deploy dist --project-name bano --branch main
+        run: npx wrangler pages deploy dist --project-name=bano --branch=main
