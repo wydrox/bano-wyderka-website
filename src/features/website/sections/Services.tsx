@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -13,7 +13,7 @@ import {
   Settings,
   Shield,
   Truck,
-  X,
+  ChevronDown,
 } from "lucide-react";
 
 const services = [
@@ -82,26 +82,8 @@ const services = [
   },
 ];
 
-const CARD_HEIGHT = 100;
-const EXPANDED_HEIGHT = 240;
-const GAP = 16;
-const ROWS = Math.ceil(services.length / 3);
-
 export function Services() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState(0);
-
-  useEffect(() => {
-    const updateWidth = () => {
-      if (containerRef.current) {
-        setContainerWidth(containerRef.current.offsetWidth);
-      }
-    };
-    updateWidth();
-    window.addEventListener("resize", updateWidth);
-    return () => window.removeEventListener("resize", updateWidth);
-  }, []);
 
   return (
     <section id="services" className="py-20 md:py-28 bg-muted/30">
@@ -134,119 +116,59 @@ export function Services() {
           </p>
         </div>
 
-        {/* Mobile View */}
-        <div className="md:hidden space-y-4">
-          {services.map((service) => (
-            <Card key={service.id} className="overflow-hidden">
-              <div className="p-4 flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg bg-[#D32F2F]/10 flex items-center justify-center flex-shrink-0">
-                  <service.icon className="w-5 h-5 text-[#D32F2F]" />
-                </div>
-                <div>
-                  <h3 className="font-semibold">{service.title}</h3>
-                  <p className="text-sm text-muted-foreground">{service.description}</p>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-
-        {/* Desktop View */}
-        <div className="hidden md:block">
-          <div 
-            ref={containerRef}
-            className="relative"
-            style={{ 
-              height: `${ROWS * (EXPANDED_HEIGHT + GAP) - GAP}px`
-            }}
-          >
-            {services.map((service, index) => {
-              const isExpanded = expandedId === service.id;
-              const isOtherExpanded = expandedId !== null && !isExpanded;
-              const row = Math.floor(index / 3);
-              const col = index % 3;
-              const cardWidth = (containerWidth - 2 * GAP) / 3;
-              
-              return (
-                <div
-                  key={service.id}
-                  className={`
-                    absolute bg-white border rounded-xl cursor-pointer
-                    transition-all duration-500 ease-in-out overflow-hidden
-                    ${isExpanded ? "z-50 shadow-2xl border-[#D32F2F] ring-1 ring-[#D32F2F]/20" : "z-10 border-border hover:border-[#D32F2F]/50 hover:shadow-md hover:scale-[1.02]"}
-                    ${isOtherExpanded ? "opacity-60" : "opacity-100"}
-                  `}
-                  style={{
-                    left: isExpanded ? 0 : `${col * (cardWidth + GAP)}px`,
-                    top: `${row * (EXPANDED_HEIGHT + GAP)}px`,
-                    width: isExpanded ? `${containerWidth}px` : `${cardWidth}px`,
-                    height: isExpanded ? `${EXPANDED_HEIGHT}px` : `${CARD_HEIGHT}px`,
-                  }}
-                  onClick={() => setExpandedId(isExpanded ? null : service.id)}
-                >
-                  <div className="p-6 h-full flex flex-col justify-start relative">
-                    {isExpanded && (
-                      <button 
-                        className="absolute top-4 right-4 p-1 rounded-full hover:bg-muted transition-colors"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setExpandedId(null);
-                        }}
-                      >
-                        <X className="w-4 h-4 text-muted-foreground" />
-                      </button>
-                    )}
-                    
-                    <div className="flex items-center gap-4">
-                      <div
-                        className={`
-                          w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0
-                          transition-colors duration-300
-                          ${isExpanded ? "bg-[#D32F2F] text-white" : "bg-[#D32F2F]/10 text-[#D32F2F]"}
-                        `}
-                      >
-                        <service.icon className="w-6 h-6" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {services.map((service) => {
+            const isExpanded = expandedId === service.id;
+            
+            return (
+              <Card 
+                key={service.id}
+                className={`group cursor-pointer transition-all duration-300 hover:shadow-md ${
+                  isExpanded ? "ring-1 ring-[#D32F2F]/20 border-[#D32F2F]/30" : ""
+                }`}
+                onClick={() => setExpandedId(isExpanded ? null : service.id)}
+              >
+                <CardHeader className="pb-2">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
+                        isExpanded 
+                          ? "bg-[#D32F2F] text-white" 
+                          : "bg-[#D32F2F]/10 text-[#D32F2F] group-hover:bg-[#D32F2F] group-hover:text-white"
+                      }`}>
+                        <service.icon className="w-5 h-5" />
                       </div>
-                      <div className="flex flex-col">
-                        <h3 className={`font-semibold transition-colors ${isExpanded ? "text-lg" : "text-base"}`}>
-                          {service.title}
-                        </h3>
-                        {!isExpanded && (
-                          <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                            Kliknij, aby rozwinąć
-                          </span>
-                        )}
-                      </div>
+                      <CardTitle className="text-base">{service.title}</CardTitle>
                     </div>
-
-                    <div
-                      className={`
-                        overflow-hidden transition-all duration-500 ease-in-out
-                        ${isExpanded ? "max-h-[160px] opacity-100 mt-6" : "max-h-0 opacity-0"}
-                      `}
-                    >
-                      <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
-                        {service.description}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {service.features.map((feature, idx) => (
-                          <span
-                            key={idx}
-                            className="text-[11px] px-3 py-1 bg-[#D32F2F]/5 rounded-full text-[#D32F2F] font-medium border border-[#D32F2F]/10"
-                          >
-                            {feature}
-                          </span>
-                        ))}
-                      </div>
-                      <div className="mt-4 text-[11px] text-[#D32F2F] font-medium italic">
-                        Kliknij ponownie, aby zamknąć
-                      </div>
+                    <div className={`transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}>
+                      <ChevronDown className="w-5 h-5 text-muted-foreground" />
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                </CardHeader>
+                
+                <CardContent className="pt-0">
+                  <div 
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                      isExpanded ? "max-h-[200px] opacity-100" : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <p className="text-muted-foreground text-sm mb-4 leading-relaxed pt-2">
+                      {service.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {service.features.map((feature, idx) => (
+                        <span
+                          key={idx}
+                          className="text-[11px] px-2 py-1 bg-[#D32F2F]/5 rounded-full text-[#D32F2F] font-medium"
+                        >
+                          {feature}
+                        </span>
+                      ))}
+                    </div>                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       </div>
     </section>
