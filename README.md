@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bano Wyderka - Warsztat Samochodowy
 
-## Getting Started
+Strona internetowa warsztatu samochodowego Bano Wyderka w Ozorkowie. Profesjonalny warsztat z 39-letnim doświadczeniem oferujący kompleksowe usługi motoryzacyjne.
 
-First, run the development server:
+## 🌐 Live
+
+[https://bano.com.pl](https://bano.com.pl)
+
+## ✨ Funkcjonalności
+
+- **Responsywny design** - działa na wszystkich urządzeniach
+- **Sekcje:**
+  - Hero z tłem warsztatowym
+  - Karuzela marek
+  - Lista usług
+  - Oferowane samochody
+  - System rezerwacji
+  - O firmie
+  - Dlaczego my
+  - Kontakt z formularzem
+- **SEO optimized** - meta tagi, Open Graph
+- **Click-to-call** - przycisk na urządzeniach mobilnych
+
+## 🛠 Tech Stack
+
+- [Next.js](https://nextjs.org/) 16 (App Router)
+- [React](https://react.dev/) 19
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [Bun](https://bun.sh/) - runtime & package manager
+
+## 🚀 Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+# Install dependencies
+bun install
+
+# Run development server
 bun dev
+
+# Build for production
+bun run build
+
+# Output directory
+dist/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📁 Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/features/website/
+├── components/        # Współdzielone komponenty
+│   ├── Navigation.tsx
+│   ├── Footer.tsx
+│   └── MobileStickyCall.tsx
+├── sections/          # Sekcje strony głównej
+│   ├── Hero.tsx
+│   ├── Services.tsx
+│   ├── About.tsx
+│   ├── WhyUs.tsx
+│   ├── Contact.tsx
+│   └── ...
+└── types/             # TypeScript types
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+public/images/         # Obrazy i logo
+```
 
-## Learn More
+## 🏢 Dane firmy
 
-To learn more about Next.js, take a look at the following resources:
+- **Nazwa:** PPHU BANO-WYDERKA
+- **Adres:** ul. Słowackiego 37, 95-035 Ozorków
+- **Telefon:** 509 795 943
+- **Email:** bano@bano.com.pl
+- **Godziny:** Pn-Pt 8:00-17:00, Sb 10:00-14:00
+- **Doświadczenie:** 39 lat
+- **Sieć:** EuroWarsztat
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📄 License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Wszelkie prawa zastrzeżone © PPHU BANO-WYDERKA
