@@ -53,7 +53,7 @@ export function Contact() {
 
   return (
     <section id="contact" className="py-16 md:py-24">
-      <div className="mx-auto max-w-5xl px-6 sm:px-8">
+      <div className="mx-auto max-w-[720px] px-4 sm:px-6">
         <div className="text-center mb-12">
           <Badge className="mb-4 bg-[#D32F2F]/10 text-[#D32F2F] border-[#D32F2F]/20">
             Kontakt

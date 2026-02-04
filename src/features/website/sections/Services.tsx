@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
   Wrench,
@@ -13,7 +13,6 @@ import {
   Settings,
   Shield,
   Truck,
-  ChevronDown,
 } from "lucide-react";
 
 const services = [
@@ -116,50 +115,47 @@ export function Services() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {services.map((service) => {
             const isExpanded = expandedId === service.id;
             
             return (
               <Card 
                 key={service.id}
-                className={`group cursor-pointer transition-all duration-300 hover:shadow-md ${
-                  isExpanded ? "ring-1 ring-[#D32F2F]/20 border-[#D32F2F]/30" : ""
+                className={`cursor-pointer transition-all duration-300 ${
+                  isExpanded 
+                    ? "bg-white shadow-lg ring-1 ring-[#D32F2F]/20" 
+                    : "bg-white/50 hover:bg-white hover:shadow-md"
                 }`}
                 onClick={() => setExpandedId(isExpanded ? null : service.id)}
               >
-                <CardHeader className="pb-2">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
-                        isExpanded 
-                          ? "bg-[#D32F2F] text-white" 
-                          : "bg-[#D32F2F]/10 text-[#D32F2F] group-hover:bg-[#D32F2F] group-hover:text-white"
-                      }`}>
-                        <service.icon className="w-5 h-5" />
-                      </div>
-                      <CardTitle className="text-base">{service.title}</CardTitle>
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
+                      isExpanded 
+                        ? "bg-[#D32F2F] text-white" 
+                        : "bg-[#D32F2F]/10 text-[#D32F2F]"
+                    }`}>
+                      <service.icon className="w-5 h-5" />
                     </div>
-                    <div className={`transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}>
-                      <ChevronDown className="w-5 h-5 text-muted-foreground" />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-base">{service.title}</h3>
                     </div>
                   </div>
-                </CardHeader>
-                
-                <CardContent className="pt-0">
+                  
                   <div 
-                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                      isExpanded ? "max-h-[200px] opacity-100" : "max-h-0 opacity-0"
+                    className={`overflow-hidden transition-all duration-300 ease-out ${
+                      isExpanded ? "max-h-[200px] opacity-100 mt-4" : "max-h-0 opacity-0"
                     }`}
                   >
-                    <p className="text-muted-foreground text-sm mb-4 leading-relaxed pt-2">
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-3">
                       {service.description}
                     </p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1.5">
                       {service.features.map((feature, idx) => (
                         <span
                           key={idx}
-                          className="text-[11px] px-2 py-1 bg-[#D32F2F]/5 rounded-full text-[#D32F2F] font-medium"
+                          className="text-[11px] px-2 py-0.5 bg-muted rounded-full text-muted-foreground"
                         >
                           {feature}
                         </span>

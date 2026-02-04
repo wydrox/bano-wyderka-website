@@ -10,7 +10,6 @@ import {
   Wrench,
   Headphones,
   Wallet,
-  ChevronDown,
 } from "lucide-react";
 
 const benefits = [
@@ -48,7 +47,7 @@ const benefits = [
     id: "ceny",
     icon: Wallet,
     title: "Uczciwe Ceny",
-    description: "Przedstawiamy jasną wycenę przed rozpoczęciem prac. Brak ukrych kosztów i niespodzianek.",
+    description: "Przedstawiamy jasną wycenę przed rozpoczęciem prac. Brak ukrytych kosztów i niespodzianek.",
   },
 ];
 
@@ -70,38 +69,37 @@ export function WhyUs() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {benefits.map((benefit) => {
             const isExpanded = expandedId === benefit.id;
             
             return (
               <Card 
                 key={benefit.id}
-                className={`group cursor-pointer transition-all duration-300 hover:shadow-md ${
-                  isExpanded ? "ring-1 ring-[#D32F2F]/20 border-[#D32F2F]/30" : ""
+                className={`cursor-pointer transition-all duration-300 ${
+                  isExpanded 
+                    ? "bg-white shadow-lg ring-1 ring-[#D32F2F]/20" 
+                    : "bg-white/50 hover:bg-white hover:shadow-md"
                 }`}
                 onClick={() => setExpandedId(isExpanded ? null : benefit.id)}
               >
                 <CardContent className="p-4">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
-                        isExpanded 
-                          ? "bg-[#D32F2F] text-white" 
-                          : "bg-[#D32F2F]/10 text-[#D32F2F] group-hover:bg-[#D32F2F] group-hover:text-white"
-                      }`}>
-                        <benefit.icon className="w-5 h-5" />
-                      </div>
-                      <h3 className="text-base font-semibold">{benefit.title}</h3>
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
+                      isExpanded 
+                        ? "bg-[#D32F2F] text-white" 
+                        : "bg-[#D32F2F]/10 text-[#D32F2F]"
+                    }`}>
+                      <benefit.icon className="w-5 h-5" />
                     </div>
-                    <div className={`transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}>
-                      <ChevronDown className="w-5 h-5 text-muted-foreground" />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-base">{benefit.title}</h3>
                     </div>
                   </div>
                   
                   <div 
-                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                      isExpanded ? "max-h-[100px] opacity-100 mt-4" : "max-h-0 opacity-0"
+                    className={`overflow-hidden transition-all duration-300 ease-out ${
+                      isExpanded ? "max-h-[120px] opacity-100 mt-4" : "max-h-0 opacity-0"
                     }`}
                   >
                     <p className="text-muted-foreground text-sm leading-relaxed">

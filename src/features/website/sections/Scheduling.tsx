@@ -135,7 +135,7 @@ export function Scheduling() {
 
   return (
     <section id="schedule" className="py-16 md:py-24 bg-[#D32F2F]/5">
-      <div className="mx-auto max-w-4xl px-6">
+      <div className="mx-auto max-w-[720px] px-4 sm:px-6">
         <div className="text-center mb-12">
           <Badge className="mb-4 bg-[#D32F2F]/10 text-[#D32F2F] border-[#D32F2F]/20">
             Umów Wizytę
