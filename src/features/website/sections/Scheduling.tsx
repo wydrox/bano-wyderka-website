@@ -168,7 +168,7 @@ export function Scheduling() {
               </div>
             </div>
 
-            <div className="p-6 min-h-[380px]">
+            <div className="px-6 py-0 min-h-[380px]">
 
               {step === 1 && (
                 <div className="space-y-3">

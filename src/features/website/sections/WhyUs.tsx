@@ -51,8 +51,8 @@ const benefits = [
   },
 ];
 
-const CARD_HEIGHT = 72;
-const EXPANDED_HEIGHT = 140;
+const CARD_HEIGHT = 56;
+const EXPANDED_HEIGHT = 120;
 const GAP = 12;
 
 export function WhyUs() {
@@ -112,25 +112,25 @@ export function WhyUs() {
                   zIndex: isExpanded ? 50 : 10,
                 }}
               >
-                <Card 
+                <Card
                   className={`h-full cursor-pointer transition-all duration-300 ${
-                    isExpanded 
-                      ? "bg-white shadow-xl ring-1 ring-[#D32F2F]/20" 
+                    isExpanded
+                      ? "bg-white shadow-xl ring-1 ring-[#D32F2F]/20"
                       : "bg-white hover:shadow-md"
                   }`}
                   onClick={() => setExpandedId(isExpanded ? null : benefit.id)}
                 >
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
-                        isExpanded 
-                          ? "bg-[#D32F2F] text-white" 
+                  <CardContent className="p-3 h-full flex flex-col">
+                    <div className="flex items-center gap-3 flex-1">
+                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
+                        isExpanded
+                          ? "bg-[#D32F2F] text-white"
                           : "bg-[#D32F2F]/10 text-[#D32F2F]"
                       }`}>
-                        <benefit.icon className="w-5 h-5" />
+                        <benefit.icon className="w-4 h-4" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-base">{benefit.title}</h3>
+                        <h3 className="font-semibold text-sm">{benefit.title}</h3>
                       </div>
                     </div>
                     
@@ -155,26 +155,26 @@ export function WhyUs() {
             const isExpanded = expandedId === benefit.id;
             
             return (
-              <Card 
+              <Card
                 key={benefit.id}
                 className={`cursor-pointer transition-all duration-300 ${
-                  isExpanded 
-                    ? "bg-white shadow-lg ring-1 ring-[#D32F2F]/20" 
+                  isExpanded
+                    ? "bg-white shadow-lg ring-1 ring-[#D32F2F]/20"
                     : "bg-white/50 hover:bg-white hover:shadow-md"
                 }`}
                 onClick={() => setExpandedId(isExpanded ? null : benefit.id)}
               >
-                <CardContent className="p-4">
+                <CardContent className="p-3">
                   <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
-                      isExpanded 
-                        ? "bg-[#D32F2F] text-white" 
+                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
+                      isExpanded
+                        ? "bg-[#D32F2F] text-white"
                         : "bg-[#D32F2F]/10 text-[#D32F2F]"
                     }`}>
-                      <benefit.icon className="w-5 h-5" />
+                      <benefit.icon className="w-4 h-4" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-base">{benefit.title}</h3>
+                      <h3 className="font-semibold text-sm">{benefit.title}</h3>
                     </div>
                   </div>
                   

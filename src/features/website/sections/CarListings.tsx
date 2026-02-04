@@ -150,8 +150,8 @@ export function CarListings() {
                       <div className="pt-3 border-t mt-auto">
                         <div className="flex flex-col gap-2">
                           {isPriceVisible ? (
-                            <div className="text-center py-2">
-                              <span className="text-xl font-bold text-[#D32F2F]">
+                            <div className="text-center py-1">
+                              <span className="text-base font-bold text-[#D32F2F]">
                                 {new Intl.NumberFormat("pl-PL", {
                                   style: "currency",
                                   currency: "PLN",
