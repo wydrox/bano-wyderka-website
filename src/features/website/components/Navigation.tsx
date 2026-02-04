@@ -67,7 +67,7 @@ export function Navigation() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px]">
-                <div className="flex flex-col gap-6 mt-8">
+                <div className="flex flex-col gap-6 mt-8 px-6">
                   <div className="mb-4">
                     <Image
                       src="/images/bano%20logo%202.png"

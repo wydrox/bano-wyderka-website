@@ -84,10 +84,59 @@ const services = [
 export function Services() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  const rows = [];
-  for (let i = 0; i < services.length; i += 2) {
-    rows.push(services.slice(i, i + 2));
-  }
+  const leftColumn = services.filter((_, index) => index % 2 === 0);
+  const rightColumn = services.filter((_, index) => index % 2 === 1);
+
+  const renderCard = (service: typeof services[0]) => {
+    const isExpanded = expandedId === service.id;
+    
+    return (
+      <Card
+        key={service.id}
+        className={`cursor-pointer transition-all duration-300 ${
+          isExpanded
+            ? "bg-white shadow-lg ring-1 ring-[#D32F2F]/20"
+            : "bg-white hover:shadow-md"
+        }`}
+        onClick={() => setExpandedId(isExpanded ? null : service.id)}
+      >
+        <CardContent className="p-3">
+          <div className="flex items-center gap-3">
+            <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
+              isExpanded
+                ? "bg-[#D32F2F] text-white"
+                : "bg-[#D32F2F]/10 text-[#D32F2F]"
+            }`}>
+              <service.icon className="w-4 h-4" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-sm">{service.title}</h3>
+            </div>
+          </div>
+          
+          <div 
+            className={`overflow-hidden transition-all duration-300 ease-out ${
+              isExpanded ? "max-h-[200px] opacity-100 mt-4" : "max-h-0 opacity-0"
+            }`}
+          >
+            <p className="text-muted-foreground text-sm leading-relaxed mb-3">
+              {service.description}
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {service.features.map((feature, idx) => (
+                <span
+                  key={idx}
+                  className="text-[11px] px-2 py-0.5 bg-muted rounded-full text-muted-foreground"
+                >
+                  {feature}
+                </span>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
 
   return (
     <section id="services" className="py-20 md:py-28 bg-muted/30">
@@ -120,61 +169,13 @@ export function Services() {
           </p>
         </div>
 
-        <div className="hidden md:flex flex-col gap-3">
-          {rows.map((row, rowIndex) => (
-            <div key={rowIndex} className="grid grid-cols-2 gap-3">
-              {row.map((service) => {
-                const isExpanded = expandedId === service.id;
-                
-                return (
-                  <Card
-                    key={service.id}
-                    className={`cursor-pointer transition-all duration-300 ${
-                      isExpanded
-                        ? "bg-white shadow-lg ring-1 ring-[#D32F2F]/20"
-                        : "bg-white hover:shadow-md"
-                    }`}
-                    onClick={() => setExpandedId(isExpanded ? null : service.id)}
-                  >
-                    <CardContent className="p-3">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
-                          isExpanded
-                            ? "bg-[#D32F2F] text-white"
-                            : "bg-[#D32F2F]/10 text-[#D32F2F]"
-                        }`}>
-                          <service.icon className="w-4 h-4" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="font-semibold text-sm">{service.title}</h3>
-                        </div>
-                      </div>
-                      
-                      <div 
-                        className={`overflow-hidden transition-all duration-300 ease-out ${
-                          isExpanded ? "max-h-[200px] opacity-100 mt-4" : "max-h-0 opacity-0"
-                        }`}
-                      >
-                        <p className="text-muted-foreground text-sm leading-relaxed mb-3">
-                          {service.description}
-                        </p>
-                        <div className="flex flex-wrap gap-1.5">
-                          {service.features.map((feature, idx) => (
-                            <span
-                              key={idx}
-                              className="text-[11px] px-2 py-0.5 bg-muted rounded-full text-muted-foreground"
-                            >
-                              {feature}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-          ))}
+        <div className="hidden md:grid grid-cols-2 gap-3">
+          <div className="flex flex-col gap-3">
+            {leftColumn.map(renderCard)}
+          </div>
+          <div className="flex flex-col gap-3">
+            {rightColumn.map(renderCard)}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:hidden gap-3">
