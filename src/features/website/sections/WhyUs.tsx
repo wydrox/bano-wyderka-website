@@ -54,6 +54,11 @@ const benefits = [
 export function WhyUs() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
+  const rows = [];
+  for (let i = 0; i < benefits.length; i += 2) {
+    rows.push(benefits.slice(i, i + 2));
+  }
+
   return (
     <section id="why-us" className="py-16 md:py-24 bg-muted/30">
       <div className="mx-auto max-w-[720px] px-4 sm:px-6">
@@ -69,52 +74,51 @@ export function WhyUs() {
           </p>
         </div>
 
-        <div className="hidden md:grid grid-cols-2 gap-3">
-          {benefits.map((benefit) => {
-            const isExpanded = expandedId === benefit.id;
-            
-            return (
-              <div 
-                key={benefit.id}
-                className="relative"
-                style={{ minHeight: '56px' }}
-              >
-                <Card
-                  className={`cursor-pointer transition-all duration-300 ${
-                    isExpanded
-                      ? "bg-white shadow-xl ring-1 ring-[#D32F2F]/20 absolute top-0 left-0 right-0 z-20 h-auto"
-                      : "bg-white hover:shadow-md relative z-10"
-                  }`}
-                  onClick={() => setExpandedId(isExpanded ? null : benefit.id)}
-                >
-                  <CardContent className="p-3">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
-                        isExpanded
-                          ? "bg-[#D32F2F] text-white"
-                          : "bg-[#D32F2F]/10 text-[#D32F2F]"
-                      }`}>
-                        <benefit.icon className="w-4 h-4" />
+        <div className="hidden md:flex flex-col gap-3">
+          {rows.map((row, rowIndex) => (
+            <div key={rowIndex} className="grid grid-cols-2 gap-3">
+              {row.map((benefit) => {
+                const isExpanded = expandedId === benefit.id;
+                
+                return (
+                  <Card
+                    key={benefit.id}
+                    className={`cursor-pointer transition-all duration-300 ${
+                      isExpanded
+                        ? "bg-white shadow-lg ring-1 ring-[#D32F2F]/20"
+                        : "bg-white hover:shadow-md"
+                    }`}
+                    onClick={() => setExpandedId(isExpanded ? null : benefit.id)}
+                  >
+                    <CardContent className="p-3">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
+                          isExpanded
+                            ? "bg-[#D32F2F] text-white"
+                            : "bg-[#D32F2F]/10 text-[#D32F2F]"
+                        }`}>
+                          <benefit.icon className="w-4 h-4" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-semibold text-sm">{benefit.title}</h3>
+                        </div>
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-sm">{benefit.title}</h3>
+                      
+                      <div 
+                        className={`overflow-hidden transition-all duration-300 ease-out ${
+                          isExpanded ? "max-h-[120px] opacity-100 mt-4" : "max-h-0 opacity-0"
+                        }`}
+                      >
+                        <p className="text-muted-foreground text-sm leading-relaxed">
+                          {benefit.description}
+                        </p>
                       </div>
-                    </div>
-                    
-                    <div 
-                      className={`overflow-hidden transition-all duration-300 ease-out ${
-                        isExpanded ? "max-h-[120px] opacity-100 mt-4" : "max-h-0 opacity-0"
-                      }`}
-                    >
-                      <p className="text-muted-foreground text-sm leading-relaxed">
-                        {benefit.description}
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            );
-          })}
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          ))}
         </div>
 
         <div className="grid grid-cols-1 md:hidden gap-3">
