@@ -1,28 +1,29 @@
 "use client";
 
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Phone, Calendar, MapPin, Clock, ArrowRight } from "lucide-react";
+import { Phone, Calendar, MapPin, Clock } from "lucide-react";
 
 export function Hero() {
   return (
-    <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#1a1a1a] via-[#2d2d2d] to-[#1a1a1a]">
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/20 via-transparent to-transparent" />
+    <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0">
+        <Image
+          src="/images/service-mechanic.jpg"
+          alt="Warsztat samochodowy"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/60" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-5xl px-6 sm:px-8 lg:px-12 py-16 md:py-20">
+      <div className="relative z-10 mx-auto max-w-[720px] px-4 sm:px-6 py-16 md:py-20">
         <div className="text-center max-w-3xl mx-auto">
-          <div className="mb-8">
-            <span className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
-              <span className="text-white">ban</span>
-              <span className="text-[#D32F2F]">o</span>
-            </span>
-            <span 
-              className="ml-2 text-xl sm:text-2xl md:text-3xl font-light italic text-gray-400"
-              style={{ fontFamily: "Georgia, serif" }}
-            >
-              Wyderka
+          <div className="mb-6">
+            <span className="text-lg sm:text-xl md:text-2xl font-medium text-white/90 tracking-wider">
+              Kup, Ubezpiecz, Serwisuj
             </span>
           </div>
 
@@ -37,9 +38,9 @@ export function Hero() {
             {" "}w Ozorkowie
           </h1>
 
-          <p className="text-base sm:text-lg text-gray-300 mb-10 max-w-xl mx-auto leading-relaxed">
-            Kompleksowe usługi motoryzacyjne: mechanika, blacharstwo, lakiernictwo, 
-            klimatyzacja i wulkanizacja. Członek sieci EuroWarsztat.
+          <p className="text-base sm:text-lg text-gray-200 mb-10 max-w-xl mx-auto leading-relaxed">
+            Kompleksowe usługi motoryzacyjne: sprzedaż, ubezpieczenia, mechanika, 
+            blacharstwo, lakiernictwo i serwis. Członek sieci EuroWarsztat.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
@@ -50,14 +51,14 @@ export function Hero() {
               </Button>
             </a>
             <a href="#schedule">
-              <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8">
+              <Button size="lg" className="bg-white text-gray-900 hover:bg-[#1a1a1a] hover:text-white px-8">
                 <Calendar className="mr-2 h-5 w-5" />
-                Umów Wizytę Online
+                Umów Online
               </Button>
             </a>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 justify-center text-gray-400 text-sm">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 justify-center text-gray-300 text-sm">
             <div className="flex items-center justify-center gap-2">
               <MapPin className="h-4 w-4 text-[#D32F2F]" />
               <span>ul. Słowackiego 37, Ozorków</span>

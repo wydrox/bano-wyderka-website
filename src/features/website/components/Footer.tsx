@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { Phone, MapPin, Mail } from "lucide-react";
 
@@ -7,23 +8,21 @@ export function Footer() {
 
   return (
     <footer className="bg-[#1a1a1a] text-gray-300">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mx-auto max-w-[720px] px-4 sm:px-6 py-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex items-baseline">
-                <span className="text-3xl font-bold tracking-tight">
-                  <span className="text-white">ban</span>
-                  <span className="text-[#D32F2F]">o</span>
-                </span>
-                <span 
-                  className="ml-1 text-lg font-light italic text-gray-500"
-                  style={{ fontFamily: "Georgia, serif" }}
-                >
-                  Wyderka
-                </span>
-              </div>
+            <div className="mb-4">
+              <Image
+                src="/images/bano%20logo%202.png"
+                alt="Bano"
+                width={120}
+                height={40}
+                className="h-10 w-auto"
+              />
             </div>
+            <p className="text-sm mb-2 max-w-md font-medium text-white">
+              Kup, Ubezpiecz, Serwisuj
+            </p>
             <p className="text-sm mb-4 max-w-md">
               Profesjonalny warsztat samochodowy z 39-letnim doświadczeniem. 
               Oferujemy kompleksowe usługi motoryzacyjne dla kierowców z Ozorkowa i okolic.
