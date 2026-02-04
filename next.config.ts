@@ -7,9 +7,6 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
-  turbopack: {
-    root: "/Users/rafalw/Documents/dev/bano-wyderka",
-  },
 };
 
 export default nextConfig;
