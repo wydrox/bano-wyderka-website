@@ -69,7 +69,55 @@ export function WhyUs() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="hidden md:grid grid-cols-2 gap-3">
+          {benefits.map((benefit) => {
+            const isExpanded = expandedId === benefit.id;
+            
+            return (
+              <div 
+                key={benefit.id}
+                className="relative"
+                style={{ minHeight: '56px' }}
+              >
+                <Card
+                  className={`cursor-pointer transition-all duration-300 ${
+                    isExpanded
+                      ? "bg-white shadow-xl ring-1 ring-[#D32F2F]/20 absolute inset-0 z-20"
+                      : "bg-white hover:shadow-md relative z-10"
+                  }`}
+                  onClick={() => setExpandedId(isExpanded ? null : benefit.id)}
+                >
+                  <CardContent className="p-3">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
+                        isExpanded
+                          ? "bg-[#D32F2F] text-white"
+                          : "bg-[#D32F2F]/10 text-[#D32F2F]"
+                      }`}>
+                        <benefit.icon className="w-4 h-4" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-sm">{benefit.title}</h3>
+                      </div>
+                    </div>
+                    
+                    <div 
+                      className={`overflow-hidden transition-all duration-300 ease-out ${
+                        isExpanded ? "max-h-[120px] opacity-100 mt-4" : "max-h-0 opacity-0"
+                      }`}
+                    >
+                      <p className="text-muted-foreground text-sm leading-relaxed">
+                        {benefit.description}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="grid grid-cols-1 md:hidden gap-3">
           {benefits.map((benefit) => {
             const isExpanded = expandedId === benefit.id;
             
@@ -104,8 +152,7 @@ export function WhyUs() {
                   >
                     <p className="text-muted-foreground text-sm leading-relaxed">
                       {benefit.description}
-                    </p>
-                  </div>
+                    </p>                  </div>
                 </CardContent>
               </Card>
             );

@@ -168,10 +168,10 @@ export function Scheduling() {
               </div>
             </div>
 
-            <div className="px-6 py-0 min-h-[380px]">
+            <div className="px-6 py-4 min-h-[420px] flex flex-col">
 
               {step === 1 && (
-                <div className="space-y-3">
+                <div className="space-y-3 py-2 h-full">
                   <div className="flex items-center justify-between mb-3">
                     <button
                       onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
@@ -223,7 +223,7 @@ export function Scheduling() {
               )}
 
               {step === 2 && date && (
-                <div className="space-y-4">
+                <div className="space-y-4 py-2 h-full">
                   <div className="flex items-center justify-between">
                     <Button variant="ghost" size="sm" onClick={() => setStep(1)}>
                       <ChevronLeft className="h-4 w-4 mr-1" />
@@ -251,7 +251,7 @@ export function Scheduling() {
               )}
 
                             {step === 3 && (
-                <div className="space-y-4">
+                <div className="space-y-4 py-2 h-full">
                   <div className="flex items-center justify-between">
                     <Button variant="ghost" size="sm" onClick={() => setStep(2)}>
                       <ChevronLeft className="h-4 w-4 mr-1" />
@@ -282,7 +282,7 @@ export function Scheduling() {
               )}
 
                             {step === 4 && (
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4 py-2 h-full">
                   <div className="flex items-center justify-between">
                     <Button variant="ghost" size="sm" onClick={() => setStep(3)}>
                       <ChevronLeft className="h-4 w-4 mr-1" />
