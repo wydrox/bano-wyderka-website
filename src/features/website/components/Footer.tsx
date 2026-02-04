@@ -13,7 +13,7 @@ export function Footer() {
           <div className="lg:col-span-2">
             <div className="mb-4">
               <Image
-                src="/images/bano%20logo%202.png"
+                src="/images/bano%20logo%201.png"
                 alt="Bano"
                 width={120}
                 height={40}
