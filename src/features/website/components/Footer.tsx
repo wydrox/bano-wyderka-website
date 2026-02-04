@@ -15,9 +15,9 @@ export function Footer() {
               <Image
                 src="/images/bano%20logo%201.png"
                 alt="Bano"
-                width={120}
-                height={40}
-                className="h-10 w-auto"
+                width={144}
+                height={48}
+                className="h-12 w-auto"
               />
             </div>
             <p className="text-sm mb-2 max-w-md font-medium text-white">

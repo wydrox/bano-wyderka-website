@@ -27,9 +27,9 @@ export function Navigation() {
             <Image
               src="/images/bano%20logo%202.png"
               alt="Bano"
-              width={120}
-              height={40}
-              className="h-10 w-auto"
+              width={144}
+              height={48}
+              className="h-12 w-auto"
               priority
             />
           </Link>
