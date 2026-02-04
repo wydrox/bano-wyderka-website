@@ -13,6 +13,7 @@ export function CarListings() {
   const [error, setError] = useState<string | null>(null);
   const [visible, setVisible] = useState(false);
   const [showPrice, setShowPrice] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -44,8 +45,8 @@ export function CarListings() {
         );
         if (!response.ok) throw new Error("Failed to fetch");
         const data = await response.json();
-        setListings(data.offerList?.slice(0, 6) || []);
-      } catch (err) {
+        setListings(data.offerList || []);
+      } catch {
         setError("Nie udało się pobrać ofert");
       } finally {
         setLoading(false);
@@ -65,7 +66,7 @@ export function CarListings() {
       id="cars"
       className="py-16 md:py-24 bg-muted/20"
     >
-      <div className="mx-auto max-w-5xl px-6">
+        <div className="mx-auto max-w-[720px] px-4 sm:px-6">
         <div className="text-center mb-12">
           <Badge className="mb-4 bg-[#D32F2F]/10 text-[#D32F2F] border-[#D32F2F]/20">
             Samochody na Sprzedaż
@@ -89,28 +90,30 @@ export function CarListings() {
           </div>
         ) : (
           <>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {listings.map((listing) => {
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {listings.slice(0, expanded ? 8 : 4).map((listing) => {
                 const { offer, photoList } = listing;
                 const mainPhoto = photoList?.[0];
                 const isPriceVisible = showPrice === offer.id;
 
                 return (
-                  <Card key={offer.id} className="overflow-hidden h-full flex flex-col">
-                    <div className="aspect-[4/3] relative overflow-hidden bg-muted">
+                  <Card key={offer.id} className="overflow-hidden h-full flex flex-col p-0">
+                    <div className="relative h-[220px] overflow-hidden">
                       {mainPhoto ? (
-                        <img
-                          src={mainPhoto.webpMiniatureUrl || mainPhoto.miniatureUrl}
-                          alt={`${offer.brand} ${offer.model}`}
-                          className="w-full h-full object-cover"
-                          loading="lazy"
-                        />
+                        <div className="absolute inset-0 w-full h-full">
+                          <img
+                            src={mainPhoto.webpMiniatureUrl || mainPhoto.miniatureUrl}
+                            alt={`${offer.brand} ${offer.model}`}
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                          />
+                        </div>
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-muted">
+                        <div className="w-full h-full flex items-center justify-center bg-gray-100">
                           <span className="text-muted-foreground text-sm">Brak zdjęcia</span>
                         </div>
                       )}
-                      <div className="absolute top-3 left-3">
+                      <div className="absolute top-3 left-3 z-10">
                         <Badge className="bg-[#D32F2F] text-white">
                           {offer.productionYear}
                         </Badge>
@@ -172,7 +175,7 @@ export function CarListings() {
                               className="w-full bg-[#D32F2F] hover:bg-[#B71C1C]"
                             >
                               <Phone className="mr-2 h-4 w-4" />
-                              Zadzwoń po szczegóły
+                              po szczegóły
                             </Button>
                           </a>
                         </div>
@@ -183,14 +186,22 @@ export function CarListings() {
               })}
             </div>
 
-            <div className="mt-10 text-center">
+            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
+              {listings.length > 4 && (
+                <Button
+                  variant="outline"
+                  onClick={() => setExpanded(!expanded)}
+                >
+                  {expanded ? "Pokaż mniej" : "Pokaż więcej"}
+                </Button>
+              )}
               <a
                 href="https://autoplac.pl/dealer/bano"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <Button variant="outline">
-                  Zobacz więcej
+                  Zobacz wszystkie na autoplac.pl
                   <ExternalLink className="ml-2 h-4 w-4" />
                 </Button>
               </a>
