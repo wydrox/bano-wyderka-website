@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -51,8 +51,28 @@ const benefits = [
   },
 ];
 
+const CARD_HEIGHT = 72;
+const EXPANDED_HEIGHT = 140;
+const GAP = 12;
+
 export function WhyUs() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.offsetWidth);
+      }
+    };
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
+
+  const rows = Math.ceil(benefits.length / 2);
+  const containerHeight = rows * (CARD_HEIGHT + GAP) - GAP;
 
   return (
     <section id="why-us" className="py-16 md:py-24 bg-muted/30">
@@ -69,7 +89,68 @@ export function WhyUs() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div 
+          ref={containerRef}
+          className="relative hidden md:block"
+          style={{ height: `${containerHeight}px` }}
+        >
+          {benefits.map((benefit, index) => {
+            const isExpanded = expandedId === benefit.id;
+            const row = Math.floor(index / 2);
+            const col = index % 2;
+            const cardWidth = (containerWidth - GAP) / 2;
+            
+            return (
+              <div
+                key={benefit.id}
+                className="absolute"
+                style={{
+                  left: `${col * (cardWidth + GAP)}px`,
+                  top: `${row * (CARD_HEIGHT + GAP)}px`,
+                  width: `${cardWidth}px`,
+                  height: isExpanded ? `${EXPANDED_HEIGHT}px` : `${CARD_HEIGHT}px`,
+                  zIndex: isExpanded ? 50 : 10,
+                }}
+              >
+                <Card 
+                  className={`h-full cursor-pointer transition-all duration-300 ${
+                    isExpanded 
+                      ? "bg-white shadow-xl ring-1 ring-[#D32F2F]/20" 
+                      : "bg-white hover:shadow-md"
+                  }`}
+                  onClick={() => setExpandedId(isExpanded ? null : benefit.id)}
+                >
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
+                        isExpanded 
+                          ? "bg-[#D32F2F] text-white" 
+                          : "bg-[#D32F2F]/10 text-[#D32F2F]"
+                      }`}>
+                        <benefit.icon className="w-5 h-5" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-base">{benefit.title}</h3>
+                      </div>
+                    </div>
+                    
+                    <div 
+                      className={`overflow-hidden transition-all duration-300 ease-out ${
+                        isExpanded ? "max-h-[80px] opacity-100 mt-4" : "max-h-0 opacity-0"
+                      }`}
+                    >
+                      <p className="text-muted-foreground text-sm leading-relaxed">
+                        {benefit.description}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="grid grid-cols-1 md:hidden gap-3">
           {benefits.map((benefit) => {
             const isExpanded = expandedId === benefit.id;
             

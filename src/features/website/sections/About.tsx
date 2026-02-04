@@ -3,6 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, Award, Clock, MapPin } from "lucide-react";
+import Image from "next/image";
 
 export function About() {
   return (
@@ -62,16 +63,22 @@ export function About() {
 
           <Card>
             <CardContent className="p-6">
-              <div className="flex items-center gap-4 mb-4">
-                <Award className="h-12 w-12 text-[#D32F2F] flex-shrink-0" />
-                <div>
+              <div className="flex flex-col sm:flex-row items-center gap-4 mb-4">
+                <Image
+                  src="/images/logo-Eurowarsztat.png"
+                  alt="Logo EuroWarsztat"
+                  width={200}
+                  height={80}
+                  className="object-contain"
+                />
+                <div className="text-center sm:text-left">
                   <h3 className="font-semibold">Członek EuroWarsztat</h3>
                   <p className="text-sm text-muted-foreground">Sieć zaufanych warsztatów</p>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground">
-                Jako członek sieci EuroWarsztat oferujemy: gwarancję na wykonane usługi, 
-                oryginalne części zamienne, uczciwe wyceny i profesjonalną obsługę 
+                Jako członek sieci EuroWarsztat oferujemy: gwarancję na wykonane usługi,
+                oryginalne części zamienne, uczciwe wyceny i profesjonalną obsługę
                 zgodną z najwyższymi standardami.
               </p>
             </CardContent>

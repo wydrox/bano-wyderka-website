@@ -50,6 +50,16 @@ export function BrandsCarousel() {
 
   return (
     <section className="py-12 md:py-16 bg-muted/30">
+      <style jsx>{`
+        @keyframes brandsScroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+      `}</style>
       <div className="mx-auto max-w-[720px] px-4 sm:px-6">
         <div className="text-center mb-8">
           <Badge className="mb-4 bg-[#D32F2F]/10 text-[#D32F2F] border-[#D32F2F]/20">
