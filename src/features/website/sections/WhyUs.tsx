@@ -51,50 +51,61 @@ const benefits = [
   },
 ];
 
+const CARD_HEIGHT = 56;
+const GAP = 12;
+
 export function WhyUs() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const leftColumn = benefits.filter((_, index) => index % 2 === 0);
   const rightColumn = benefits.filter((_, index) => index % 2 === 1);
 
-  const renderCard = (benefit: typeof benefits[0]) => {
+  const renderCard = (benefit: typeof benefits[0], index: number, column: 'left' | 'right') => {
     const isExpanded = expandedId === benefit.id;
     
     return (
-      <Card
+      <div 
         key={benefit.id}
-        className={`cursor-pointer transition-all duration-300 ${
-          isExpanded
-            ? "bg-white shadow-lg ring-1 ring-[#D32F2F]/20"
-            : "bg-white hover:shadow-md"
-        }`}
-        onClick={() => setExpandedId(isExpanded ? null : benefit.id)}
+        className="relative"
+        style={{ 
+          height: `${CARD_HEIGHT}px`,
+          marginBottom: index < (column === 'left' ? leftColumn.length : rightColumn.length) - 1 ? `${GAP}px` : '0'
+        }}
       >
-        <CardContent className="p-3">
-          <div className="flex items-center gap-3">
-            <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
-              isExpanded
-                ? "bg-[#D32F2F] text-white"
-                : "bg-[#D32F2F]/10 text-[#D32F2F]"
-            }`}>
-              <benefit.icon className="w-4 h-4" />
+        <Card
+          className={`cursor-pointer transition-all duration-300 ${
+            isExpanded
+              ? "bg-white shadow-xl ring-1 ring-[#D32F2F]/20 absolute top-0 left-0 right-0 z-20 h-auto"
+              : "bg-white hover:shadow-md relative z-10 h-full"
+          }`}
+          onClick={() => setExpandedId(isExpanded ? null : benefit.id)}
+        >
+          <CardContent className="p-3">
+            <div className="flex items-center gap-3">
+              <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
+                isExpanded
+                  ? "bg-[#D32F2F] text-white"
+                  : "bg-[#D32F2F]/10 text-[#D32F2F]"
+              }`}>
+                <benefit.icon className="w-4 h-4" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold text-sm">{benefit.title}</h3>
+              </div>
             </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-sm">{benefit.title}</h3>
+            
+            <div 
+              className={`overflow-hidden transition-all duration-300 ease-out ${
+                isExpanded ? "max-h-[120px] opacity-100 mt-4" : "max-h-0 opacity-0"
+              }`}
+            >
+              <p className="text-muted-foreground text-sm leading-relaxed">
+                {benefit.description}
+              </p>
             </div>
-          </div>
-          
-          <div 
-            className={`overflow-hidden transition-all duration-300 ease-out ${
-              isExpanded ? "max-h-[120px] opacity-100 mt-4" : "max-h-0 opacity-0"
-            }`}
-          >
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              {benefit.description}
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
     );
   };
 
@@ -114,11 +125,11 @@ export function WhyUs() {
         </div>
 
         <div className="hidden md:grid grid-cols-2 gap-3">
-          <div className="flex flex-col gap-3">
-            {leftColumn.map(renderCard)}
+          <div>
+            {leftColumn.map((benefit, index) => renderCard(benefit, index, 'left'))}
           </div>
-          <div className="flex flex-col gap-3">
-            {rightColumn.map(renderCard)}
+          <div>
+            {rightColumn.map((benefit, index) => renderCard(benefit, index, 'right'))}
           </div>
         </div>
 
