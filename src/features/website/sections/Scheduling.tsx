@@ -216,7 +216,7 @@ export function Scheduling() {
                     ))}
                   </div>
 
-                  <p className="text-xs text-muted-foreground text-center mt-3">
+                  <p className="text-xs text-muted-foreground text-center mt-10">
                     Wybierz dzień roboczy (pn-pt). Rezerwacje od {format(addHours(new Date(), 36), "dd.MM")}.
                   </p>
                 </div>
@@ -234,7 +234,7 @@ export function Scheduling() {
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+                  <div className="grid grid-cols-3 sm:grid-cols-5 gap-5">
                     {timeSlots.map((slot) => (
                       <Button
                         key={slot}

@@ -128,7 +128,7 @@ export function Services() {
                 <Card
                   className={`cursor-pointer transition-all duration-300 ${
                     isExpanded
-                      ? "bg-white shadow-xl ring-1 ring-[#D32F2F]/20 absolute inset-0 z-20"
+                      ? "bg-white shadow-xl ring-1 ring-[#D32F2F]/20 absolute top-0 left-0 right-0 z-20 h-auto"
                       : "bg-white hover:shadow-md relative z-10"
                   }`}
                   onClick={() => setExpandedId(isExpanded ? null : service.id)}
