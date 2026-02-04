@@ -49,7 +49,7 @@ export function BrandsCarousel() {
   const doubledBrands = [...brands, ...brands];
 
   return (
-    <section className="py-12 md:py-16 bg-muted/30">
+    <section className="py-16 bg-muted/30">
       <style jsx>{`
         @keyframes brandsScroll {
           0% {

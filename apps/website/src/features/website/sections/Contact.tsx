@@ -16,7 +16,10 @@ import {
   Mail,
   Send,
   AtSign,
+  Loader2,
 } from "lucide-react";
+import { submitToCrm } from "@/src/features/crm/actions/submit-form";
+
 
 const contactInfo = [
   {
@@ -51,9 +54,38 @@ const openingHours = [
 
 export function Contact() {
   const [gdprConsent, setGdprConsent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setStatus('idle');
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get('name') as string,
+      phone: formData.get('phone') as string,
+      email: formData.get('email') as string,
+      carInfo: formData.get('car') as string,
+      message: formData.get('message') as string,
+      type: 'contact' as const,
+    };
+
+    const result = await submitToCrm(data);
+    
+    setSubmitting(false);
+    if (result.success) {
+      setStatus('success');
+      (e.target as HTMLFormElement).reset();
+      setGdprConsent(false);
+    } else {
+      setStatus('error');
+    }
+  };
 
   return (
-    <section id="contact" className="py-16 md:py-24">
+    <section id="contact" className="py-16">
       <div className="mx-auto max-w-[720px] px-4 sm:px-6">
         <div className="text-center mb-12">
           <Badge className="mb-4 bg-[#D32F2F]/10 text-[#D32F2F] border-[#D32F2F]/20">
@@ -77,8 +109,8 @@ export function Contact() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4 p-6 pt-0">
-                {contactInfo.map((item, index) => (
-                  <div key={index} className="flex items-start gap-3">
+                {contactInfo.map((item) => (
+                  <div key={item.title} className="flex items-start gap-3">
                     <item.icon className="h-5 w-5 text-[#D32F2F] mt-0.5" />
                     <div>
                       <p className="font-medium">{item.title}</p>
@@ -115,9 +147,9 @@ export function Contact() {
               </CardHeader>
               <CardContent className="p-6 pt-0">
                 <div className="space-y-2">
-                  {openingHours.map((item, index) => (
+                  {openingHours.map((item) => (
                     <div
-                      key={index}
+                      key={item.day}
                       className={`flex justify-between py-1 ${
                         item.closed ? "text-muted-foreground" : ""
                       }`}
@@ -131,71 +163,89 @@ export function Contact() {
             </Card>
           </div>
 
-          <Card>
+          <Card className="h-full flex flex-col">
             <CardHeader className="p-6">
               <CardTitle className="flex items-center gap-2 text-lg font-semibold">
                 <Send className="h-5 w-5 text-[#D32F2F]" />
                 Wyślij Wiadomość
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-6 pt-0">
-              <form className="space-y-4">
+            <CardContent className="p-6 pt-0 flex-1 flex flex-col">
+              <form onSubmit={handleSubmit} className="space-y-4 flex-1 flex flex-col">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">Imię i nazwisko *</Label>
-                    <Input id="name" placeholder="Jan Kowalski" required />
+                    <Input id="name" name="name" placeholder="Jan Kowalski" required />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Telefon *</Label>
-                    <Input id="phone" type="tel" placeholder="123 456 789" required />
+                    <Input id="phone" name="phone" type="tel" placeholder="123 456 789" required />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="jan@example.com" />
+                  <Input id="email" name="email" type="email" placeholder="jan@example.com" />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="car">Marka i model pojazdu</Label>
-                  <Input id="car" placeholder="np. Volkswagen Golf VI 1.6 TDI" />
+                  <Input id="car" name="car" placeholder="np. Volkswagen Golf VI 1.6 TDI" />
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-2 flex-1 flex flex-col">
                   <Label htmlFor="message">Wiadomość *</Label>
                   <Textarea
                     id="message"
+                    name="message"
                     placeholder="Opisz krótko czego dotyczy sprawa..."
-                    rows={4}
+                    className="flex-1 resize-none"
                     required
                   />
                 </div>
 
-                <Separator />
+                <div className="space-y-4 mt-auto">
+                  {status === 'success' && (
+                    <p className="text-sm text-green-600 font-medium">Wiadomość została wysłana pomyślnie!</p>
+                  )}
+                  {status === 'error' && (
+                    <p className="text-sm text-red-600 font-medium">Wystąpił błąd podczas wysyłania. Spróbuj ponownie.</p>
+                  )}
+                  <Separator />
 
-                <div className="flex items-start space-x-2">
-                  <Checkbox
-                    id="gdpr"
-                    checked={gdprConsent}
-                    onCheckedChange={(checked) => setGdprConsent(checked as boolean)}
-                    required
-                  />
-                  <Label htmlFor="gdpr" className="text-sm font-normal leading-tight cursor-pointer">
-                    Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z 
-                    ustawą o ochronie danych osobowych w związku z wysłaniem zapytania 
-                    przez formularz kontaktowy. Podanie danych jest dobrowolne, ale 
-                    niezbędne do przetworzenia zapytania. *
-                  </Label>
+                  <div className="flex items-start space-x-2">
+                    <Checkbox
+                      id="gdpr"
+                      checked={gdprConsent}
+                      onCheckedChange={(checked) => setGdprConsent(checked as boolean)}
+                      required
+                    />
+                    <Label htmlFor="gdpr" className="text-sm font-normal leading-tight cursor-pointer">
+                      Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z 
+                      ustawą o ochronie danych osobowych w związku z wysłaniem zapytania 
+                      przez formularz kontaktowy. Podanie danych jest dobrowolne, ale 
+                      niezbędne do przetworzenia zapytania. *
+                    </Label>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full bg-[#D32F2F] hover:bg-[#B71C1C]"
+                    disabled={!gdprConsent || submitting}
+                  >
+                    {submitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Wysyłanie...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="mr-2 h-4 w-4" />
+                        Wyślij Wiadomość
+                      </>
+                    )}
+                  </Button>
                 </div>
-
-                <Button
-                  type="submit"
-                  className="w-full bg-[#D32F2F] hover:bg-[#B71C1C]"
-                  disabled={!gdprConsent}
-                >
-                  <Send className="mr-2 h-4 w-4" />
-                  Wyślij Wiadomość
-                </Button>
               </form>
             </CardContent>
           </Card>

@@ -10,7 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import { Checkbox } from "@/components/ui/checkbox";
-import { ChevronLeft, ChevronRight, Loader2, CheckCircle } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { submitToCrm } from "@/src/features/crm/actions/submit-form";
 
 const timeSlots = [
   "08:00", "09:00", "10:00", "11:00", "12:00",
@@ -95,18 +96,35 @@ export function Scheduling() {
     setStep(4);
   };
 
+  const [error, setError] = useState<string | null>(null);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!date || !time || !gdprConsent) return;
 
     setSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setSubmitted(true);
+    setError(null);
+
+    const result = await submitToCrm({
+      name,
+      phone,
+      email,
+      carInfo,
+      type: 'booking',
+      details: `Service: ${service}\nDate: ${format(date, "dd.MM.yyyy")}\nTime: ${time}`,
+    });
+
+    setSubmitting(false);
+    if (result.success) {
+      setSubmitted(true);
+    } else {
+      setError(result.error || "Wystąpił błąd podczas wysyłania.");
+    }
   };
 
   if (submitted) {
     return (
-    <section id="schedule" className="py-4 bg-[#D32F2F]/5">
+    <section id="schedule" className="py-16 bg-[#D32F2F]/5">
       <div className="mx-auto max-w-xl px-4 sm:px-6">
           <Card>
             <CardContent className="p-8 text-center">
@@ -134,7 +152,7 @@ export function Scheduling() {
   }
 
   return (
-    <section id="schedule" className="py-4 bg-[#D32F2F]/5">
+    <section id="schedule" className="py-16 bg-[#D32F2F]/5">
       <div className="mx-auto max-w-[720px] px-4 sm:px-6">
         <div className="text-center mb-12">
           <Badge className="mb-4 bg-[#D32F2F]/10 text-[#D32F2F] border-[#D32F2F]/20">
@@ -174,6 +192,7 @@ export function Scheduling() {
                 <div className="space-y-3 py-2 h-full">
                   <div className="flex items-center justify-between mb-3">
                     <button
+                      type="button"
                       onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
                       className="p-1.5 hover:bg-muted rounded-full"
                     >
@@ -183,6 +202,7 @@ export function Scheduling() {
                       {format(currentMonth, "LLLL yyyy", { locale: pl })}
                     </span>
                     <button
+                      type="button"
                       onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
                       className="p-1.5 hover:bg-muted rounded-full"
                     >
@@ -190,7 +210,7 @@ export function Scheduling() {
                     </button>
                   </div>
 
-                  <div className="grid grid-cols-7 gap-1 mb-1">
+                  <div className="grid grid-cols-7 gap-5 mb-1">
                     {weekDays.map((day) => (
                       <div key={day} className="text-center text-xs text-muted-foreground py-1">
                         {day}
@@ -198,10 +218,11 @@ export function Scheduling() {
                     ))}
                   </div>
 
-                  <div className="grid grid-cols-7 gap-1">
+                  <div className="grid grid-cols-7 gap-5">
                     {generateCalendarDays().map((day, idx) => (
                       <button
-                        key={idx}
+                        key={day ? day.toISOString() : `empty-${idx}`}
+                        type="button"
                         onClick={() => day && handleDateSelect(day)}
                         disabled={isDateDisabled(day)}
                         className={`
@@ -342,7 +363,7 @@ export function Scheduling() {
                     />
                   </div>
 
-                  <div className="flex items-start space-x-2 pt-2">
+                   <div className="flex items-start space-x-2 pt-2">
                     <Checkbox
                       id="gdpr"
                       checked={gdprConsent}
@@ -354,7 +375,15 @@ export function Scheduling() {
                     </Label>
                   </div>
 
+                  {error && (
+                    <div className="flex items-center gap-2 text-red-600 text-xs font-medium">
+                      <AlertCircle className="h-3 w-3" />
+                      {error}
+                    </div>
+                  )}
+
                   <Button
+
                     type="submit"
                     className="w-full bg-[#D32F2F] hover:bg-[#B71C1C]"
                     disabled={!name || !phone || !gdprConsent || submitting}

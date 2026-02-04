@@ -45,13 +45,6 @@ const services = [
     features: ["Alternatory", "Rozruszniki", "ABS/ESP", "Centralny zamek"],
   },
   {
-    id: "wulkanizacja",
-    icon: CircleDot,
-    title: "Wulkanizacja",
-    description: "Wymiana opon, wyważanie kół, naprawa przebić, sezonowa wymiana opon, sprzedaż opon nowych i używanych.",
-    features: ["Wymiana opon", "Wyważanie", "Naprawa", "Sezonowa wymiana"],
-  },
-  {
     id: "przeglady",
     icon: Settings,
     title: "Przeglądy i Obsługa",
@@ -130,9 +123,9 @@ export function Services() {
               {service.description}
             </p>
             <div className="flex flex-wrap gap-1.5">
-              {service.features.map((feature, idx) => (
+              {service.features.map((feature) => (
                 <span
-                  key={idx}
+                  key={feature}
                   className="text-[11px] px-2 py-0.5 bg-muted rounded-full text-muted-foreground"
                 >
                   {feature}
@@ -146,7 +139,7 @@ export function Services() {
   };
 
   return (
-    <section id="services" className="py-20 md:py-28 bg-muted/30">
+    <section id="services" className="pt-16 pb-0 bg-muted/30">
       <div className="mx-auto max-w-[720px] px-4 sm:px-6">
         <div className="text-center mb-16">
           <Badge className="mb-6 bg-[#D32F2F]/10 text-[#D32F2F] border-[#D32F2F]/20">
@@ -225,9 +218,9 @@ export function Services() {
                       {service.description}
                     </p>
                     <div className="flex flex-wrap gap-1.5">
-                      {service.features.map((feature, idx) => (
+                      {service.features.map((feature) => (
                         <span
-                          key={idx}
+                          key={feature}
                           className="text-[11px] px-2 py-0.5 bg-muted rounded-full text-muted-foreground"
                         >
                           {feature}

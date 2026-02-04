@@ -26,11 +26,11 @@ jobs:
         run: bun install
 
       - name: Build project
-        run: bun run build
+        run: bun --filter website run build
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          command: pages deploy dist --project-name=bano
+          command: pages deploy apps/website/dist --project-name=bano
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
