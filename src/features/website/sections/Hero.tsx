@@ -19,7 +19,7 @@ export function Hero() {
         <div className="absolute inset-0 bg-black/60" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-[720px] px-4 sm:px-6 py-16 md:py-20">
+      <div className="relative z-10 mx-auto max-w-[720px] px-4 sm:px-6 py-20">
         <div className="text-center max-w-3xl mx-auto">
           <div className="mb-6">
             <span className="text-lg sm:text-xl md:text-2xl font-medium text-white/90 tracking-wider">

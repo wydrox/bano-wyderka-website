@@ -69,21 +69,23 @@ export function Navigation() {
               <SheetContent side="right" className="w-[300px]">
                 <div className="flex flex-col gap-6 mt-8 px-6">
                   <div className="mb-4">
-                    <Image
-                      src="/images/bano%20logo%202.png"
-                      alt="Bano"
-                      width={100}
-                      height={35}
-                      className="h-8 w-auto"
-                      priority
-                    />
+                    <div className="text-xl font-bold text-foreground">Kup.</div>
+                    <div className="text-xl font-bold text-[#D32F2F]">Ubezpiecz.</div>
+                    <div className="text-xl font-bold text-foreground">Serwisuj.</div>
                   </div>
                   
                   {navItems.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
-                      onClick={() => setIsOpen(false)}
+                      onClick={(e) => {
+                        setIsOpen(false);
+                        e.preventDefault();
+                        const element = document.querySelector(item.href);
+                        if (element) {
+                          element.scrollIntoView({ behavior: 'smooth' });
+                        }
+                      }}
                       className="text-lg font-medium hover:text-[#D32F2F] transition-colors"
                     >
                       {item.label}

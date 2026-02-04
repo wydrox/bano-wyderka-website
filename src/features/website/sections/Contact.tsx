@@ -15,6 +15,7 @@ import {
   Clock,
   Mail,
   Send,
+  AtSign,
 } from "lucide-react";
 
 const contactInfo = [
@@ -31,7 +32,7 @@ const contactInfo = [
     href: "tel:+48509795943",
   },
   {
-    icon: Mail,
+    icon: AtSign,
     title: "Email",
     content: "bano@bano.com.pl",
     href: "mailto:bano@bano.com.pl",
@@ -69,13 +70,13 @@ export function Contact() {
         <div className="grid lg:grid-cols-2 gap-6">
           <div className="space-y-6">
             <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MapPin className="h-5 w-5 text-[#D32F2F]" />
+              <CardHeader className="p-6">
+                <CardTitle className="flex items-center gap-2 text-lg font-semibold">
+                  <Mail className="h-5 w-5 text-[#D32F2F]" />
                   Dane Kontaktowe
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4 p-6 pt-0">
                 {contactInfo.map((item, index) => (
                   <div key={index} className="flex items-start gap-3">
                     <item.icon className="h-5 w-5 text-[#D32F2F] mt-0.5" />
@@ -106,13 +107,13 @@ export function Contact() {
             </Card>
 
             <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+              <CardHeader className="p-6">
+                <CardTitle className="flex items-center gap-2 text-lg font-semibold">
                   <Clock className="h-5 w-5 text-[#D32F2F]" />
                   Godziny Otwarcia
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-6 pt-0">
                 <div className="space-y-2">
                   {openingHours.map((item, index) => (
                     <div
@@ -131,10 +132,13 @@ export function Contact() {
           </div>
 
           <Card>
-            <CardHeader>
-              <CardTitle>Wyślij Wiadomość</CardTitle>
+            <CardHeader className="p-6">
+              <CardTitle className="flex items-center gap-2 text-lg font-semibold">
+                <Send className="h-5 w-5 text-[#D32F2F]" />
+                Wyślij Wiadomość
+              </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-6 pt-0">
               <form className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
