@@ -5,24 +5,19 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 
 const brands = [
-  { name: "Fiat", domain: "fiat.pl" },
-  { name: "Opel", domain: "opel.pl" },
-  { name: "Volkswagen", domain: "volkswagen.pl" },
-  { name: "Ford", domain: "ford.com" },
-  { name: "Renault", domain: "renault.pl" },
-  { name: "Skoda", domain: "skoda.com" },
-  { name: "Toyota", domain: "toyota.pl" },
-  { name: "Nissan", domain: "nissan.pl" },
-  { name: "Suzuki", domain: "suzuki.pl" },
-  { name: "Dacia", domain: "dacia.pl" },
+  { name: "Fiat", logo: "/images/brands/fiat.png" },
+  { name: "Opel", logo: "/images/brands/opel.png" },
+  { name: "Volkswagen", logo: "/images/brands/volkswagen.png" },
+  { name: "Ford", logo: "/images/brands/ford.png" },
+  { name: "Renault", logo: "/images/brands/renault.png" },
+  { name: "Skoda", logo: "/images/brands/skoda-auto.png" },
+  { name: "Toyota", logo: "/images/brands/toyota.png" },
+  { name: "Nissan", logo: "/images/brands/nissan-global.png" },
+  { name: "Suzuki", logo: "/images/brands/suzuki.png" },
+  { name: "Dacia", logo: "/images/brands/dacia.png" },
 ];
 
-const BRANDFETCH_CLIENT_ID = process.env.NEXT_PUBLIC_BRANDFETCH_CLIENT_ID;
 const LOGO_HEIGHT = 72;
-
-function getLogoUrl(domain: string): string {
-  return `https://cdn.brandfetch.io/${domain}/h/${LOGO_HEIGHT}/logo.png?c=${BRANDFETCH_CLIENT_ID}`;
-}
 
 export function BrandsCarousel() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -101,23 +96,14 @@ export function BrandsCarousel() {
                 className="flex-shrink-0 mx-6 md:mx-8"
               >
                 <div className="h-16 md:h-20 flex items-center justify-center">
-                  <Image
-                    src={getLogoUrl(brand.domain)}
-                    alt={`${brand.name} logo`}
-                    width={200}
-                    height={LOGO_HEIGHT}
-                    className="w-auto h-full object-contain"
-                    unoptimized
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = "none";
-                      const fallback = target.parentElement?.querySelector(".fallback") as HTMLElement;
-                      if (fallback) fallback.style.display = "flex";
-                    }}
-                  />
-                  <div className="fallback hidden w-full h-full items-center justify-center text-center">
-                    <span className="text-sm font-bold text-gray-700">{brand.name}</span>
-                  </div>
+                    <Image
+                      src={brand.logo}
+                      alt={`${brand.name} logo`}
+                      width={160}
+                      height={LOGO_HEIGHT}
+                      className="w-auto h-12 md:h-14 object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                      unoptimized
+                    />
                 </div>
               </div>
             ))}

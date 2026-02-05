@@ -27,7 +27,6 @@ const services = [
   "Elektromechanika",
   "Blacharstwo",
   "Lakiernictwo",
-  "Wulkanizacja",
   "Inne"
 ];
 
